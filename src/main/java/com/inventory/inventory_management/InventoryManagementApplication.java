@@ -1,4 +1,5 @@
 package com.inventory.inventory_management;
+import com.inventory.inventory_management.repository.ProductRepository;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,16 +16,15 @@ public class InventoryManagementApplication {
 		SpringApplication.run(InventoryManagementApplication.class, args);
 	}
 	@Bean
-	// Test DB
-	CommandLineRunner testDatabaseConnection(DataSource dataSource) {
+	CommandLineRunner testDatabaseConnection(
+			ProductRepository productRepository) {
+
 		return args -> {
-			try (Connection connection = dataSource.getConnection()) {
-				System.out.println("================================");
-				System.out.println("DATABASE CONNECTION SUCCESS!");
-				System.out.println("Database: " +
-						connection.getCatalog());
-				System.out.println("================================");
-			}
+			System.out.println("==============================");
+			System.out.println("DATABASE CONNECTION SUCCESS!");
+			System.out.println("Total Products: "
+					+ productRepository.count());
+			System.out.println("==============================");
 		};
 	}
 }
